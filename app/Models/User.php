@@ -12,6 +12,15 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    const ROLE_USER = 1;
+    const ROLE_PHARMECY_USER = 2;
+
+    public function getDashboardAttribute()
+    {
+        return $this->attributes['role'] == 1 ? 'user' : 'pharmacy_user';
+    }
+
+
     /**
      * The attributes that are mass assignable.
      *

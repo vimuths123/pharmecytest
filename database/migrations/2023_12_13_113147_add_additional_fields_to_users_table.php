@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\User;
 
 return new class extends Migration
 {
@@ -15,6 +16,7 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('contact_number')->nullable();
             $table->date('dob')->nullable();
+            $table->unsignedTinyInteger('role')->default(User::ROLE_USER);
         });
     }
 
@@ -27,6 +29,7 @@ return new class extends Migration
             $table->dropColumn('address');
             $table->dropColumn('contact_number');
             $table->dropColumn('dob');
+            $table->dropColumn('role');
         });
     }
 };
