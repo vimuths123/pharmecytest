@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PrescriptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,10 +33,11 @@ Route::middleware(['auth', 'verified', 'role:pharmacy_user'])->group(function ()
 
 Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
     
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-    
+    // Route::get('/dashboard', function () {
+    //     return view('dashboard');
+    // })->name('dashboard');
+    Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
+    Route::post('/prescriptions', [PrescriptionController::class, 'store'])->name('prescription.store');
 });
 
 Route::middleware('auth')->group(function () {
