@@ -24,7 +24,7 @@
                     </div>
                     @endif
 
-                    <div class="grid grid-cols-12 gap-4">
+                    <div class="grid grid-cols-12 gap-4" x-data="{ drug: '', quantity: '', items: [], total: 0.00 }">
                         <div class="md:col-span-4 sm:col-span-12 p-4">
                             <main class="cd__main">
                                 <!-- Start DEMO HTML (Use the following code into your project)-->
@@ -37,7 +37,7 @@
                                         </div>
                                         @endforeach
                                     </div>
-                                    
+
                                     <div class="caption-container">
                                         <p id="caption"></p>
                                     </div>
@@ -54,14 +54,100 @@
                             </main>
                         </div>
                         <div class="md:col-span-8 sm:col-span-12 p-4">
-                            
+                            <div>
+                                <table class="min-w-full  mb-4">
+                                    <thead>
+                                        <tr>
+                                            <th class="py-2 px-4 text-left">Drug</th>
+                                            <th class="py-2 px-4 text-left">Quantity</th>
+                                            <th class="py-2 px-4 text-left">Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template x-for="item in items" :key="item.code">
+                                            <tr>
+                                                <td class="py-2 px-4" x-text="item.name"></td>
+                                                <td class="py-2 px-4" x-text="`${item.price.toFixed(2)} x ${item.quantity}`"></td>
+                                                <td class="py-2 px-4" x-text="item.amount.toFixed(2)"></td>
+                                            </tr>
+                                        </template>
+                                        <tr>
+                                            <td class="py-2 px-4 ">
+
+                                            </td>
+                                            <td class="py-2 px-4 ">
+                                                <b>Total</b>
+                                            </td>
+                                            <td class="py-2 px-4 " x-text="`${total.toFixed(2)}`">
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="px-4 py-1 text-right">
+                                    <label>Drug: <input class="ml-4" x-model="drug" type="text" /> </label>
+                                </div>
+                                <div class="px-4 py-1 text-right">
+                                    <label>Quantity: <input class="ml-4" x-model="quantity" type="text" /> </label>
+                                </div>
+                                <div class="px-4 py-1 text-right">
+                                    <button @click="add" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add</button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        <div class="sm:col-span-12 p-4 text-right">
+                            <button @click="sendQuotation" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send Quotation</button>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
 
     <script src="{{ asset('js/script.js') }}"></script>
+    <script>
+        function displayValue() {
+            this.outputValue = this.inputValue;
+        }
+    </script>
+    <script>
+        function add() {
+            const drugDetailsList = [{
+                    code: 'ABC123',
+                    name: 'Amoxicillin 250mg',
+                    price: 10.50
+                },
+                {
+                    code: 'ABC234',
+                    name: 'Paracetamol 500mg',
+                    price: 5.00
+                },
+                // Add more drugs as needed (Or can be used a db record)
+            ];
+
+            const existingDrug = drugDetailsList.find(drug => drug.code === this.drug);
+
+            if (existingDrug) {
+                const prescription = {
+                    code: existingDrug.code,
+                    name: existingDrug.name,
+                    quantity: this.quantity,
+                    price: existingDrug.price,
+                    amount: existingDrug.price * this.quantity
+                };
+
+                this.items.push(prescription);
+                // console.log("Items:", this.items);
+                this.total += existingDrug.price * parseInt(this.quantity, 10);
+                // console.log("Prescription added:", prescription);
+            } else {
+                alert("Drug not found in the list")
+                // console.log("Drug not found in the list");
+            }
+        }
+        function sendQuotation(){
+            console.log("Items:", this.items);
+        }
+    </script>
 </x-app-layout>
