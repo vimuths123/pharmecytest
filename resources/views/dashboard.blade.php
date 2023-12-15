@@ -32,7 +32,7 @@
                         <div class="mb-6">
                             <label class="block">
                                 <span class="text-gray-700">Time slot</span>
-                                <input type="text" name="title" class="block w-full @error('time_slot') border-red-500 @enderror mt-1 rounded-md" placeholder="" value="{{old('time_slot')}}" />
+                                <input type="text" name="time_slot" class="block w-full @error('time_slot') border-red-500 @enderror mt-1 rounded-md" placeholder="" value="{{old('time_slot')}}" />
                             </label>
                             @error('time_slot')
                             <div class="text-sm text-red-600">{{ $message }}</div>

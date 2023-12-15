@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\PharmecyUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PrescriptionController;
 
@@ -25,17 +26,12 @@ Route::get('/', function () {
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware(['auth', 'verified', 'role:pharmacy_user'])->group(function () {
-   Route::get('/pharmacy_dashboard', function () {
-        return view('pharmacy.dashboard');
-    })->name('pharmacy.dashboard');
+    Route::get('/pharmacy_dashboard', [PharmecyUserController::class, 'dashboard'])->name('pharmacy.dashboard');
+    Route::get('/view_prescription/{id}', [PharmecyUserController::class, 'view_prescription'])->name('pharmecy.view_prescription');
 });
 
 
 Route::middleware(['auth', 'verified', 'role:user'])->group(function () {
-    
-    // Route::get('/dashboard', function () {
-    //     return view('dashboard');
-    // })->name('dashboard');
     Route::get('/dashboard', [UserController::class, 'dashboard'])->name('dashboard');
     Route::post('/prescriptions', [PrescriptionController::class, 'store'])->name('prescription.store');
 });
@@ -46,4 +42,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

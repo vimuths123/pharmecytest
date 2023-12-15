@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Prescription;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,6 +18,7 @@ return new class extends Migration
             $table->text('note')->nullable();
             $table->string('delivery_address')->nullable();
             $table->string('time_slot')->nullable();
+            $table->unsignedTinyInteger('status')->default(Prescription::STATUS_PENDING);
             $table->text('images')->nullable();
             $table->timestamps();
         });

@@ -26,6 +26,8 @@ class PrescriptionStoreRequest extends FormRequest
     {
         return [
             'note' => 'required',
+            'delivery_address' => 'required',
+            'time_slot' => 'required',
             'images' => 'required|array|min:1',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
