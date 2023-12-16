@@ -30,6 +30,7 @@ class UserController extends Controller
     {
         $approvalResult = $request->input('approval');
         $prescription = $this->prescriptionRepository->find($id);
+        $this->authorize('update', $prescription);
 
         if ($approvalResult === 'approve') {
             $prescription = $this->prescriptionRepository->update($id, [
