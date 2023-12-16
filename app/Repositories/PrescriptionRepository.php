@@ -33,4 +33,11 @@ class PrescriptionRepository implements PrescriptionRepositoryInterface
         return Prescription::findOrFail($id);
     }
 
+    public function update($id, array $data)
+    {
+        $blog = Prescription::findOrFail($id);
+        $blog->update($data);
+
+        return $blog;
+    }
 }

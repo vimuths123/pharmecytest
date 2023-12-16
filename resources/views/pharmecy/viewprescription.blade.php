@@ -99,6 +99,14 @@
                         <div class="sm:col-span-12 p-4 text-right">
                             <button @click="sendQuotation" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Send Quotation</button>
                         </div>
+
+                        <form action="{{ route('pharmacy.sendmail') }}" method="POST" x-ref="quotationForm" style="display: none;">
+                            @csrf
+                            <input type="hidden" name="user" :value="JSON.stringify({{ $prescription->user }})">
+                            <input type="hidden" name="prescription" :value="JSON.stringify({{ $prescription }})">
+                            <input type="hidden" name="items" :value="JSON.stringify(items)">
+                            <input type="hidden" name="total" :value="total">
+                        </form>
                     </div>
                 </div>
             </div>
@@ -146,8 +154,20 @@
                 // console.log("Drug not found in the list");
             }
         }
-        function sendQuotation(){
-            console.log("Items:", this.items);
+
+        function sendQuotation() {
+            // console.log("Items:", this.items);
+
+            const items = this.items;
+
+            if (items.length === 0) {
+                alert("Please add at least one item to send quotation");
+            } else {
+                const form = document.querySelector('[x-ref="quotationForm"]');
+                form.submit();
+            }
+
+
         }
     </script>
 </x-app-layout>
